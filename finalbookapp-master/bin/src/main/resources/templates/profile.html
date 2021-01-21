@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.springframework.org/schema/mvc">
+<head>
+<title>BookApp</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<style>
+/* Make the image fully responsive */
+.carousel-inner img {
+	width: 100%;
+	height: 100%;
+}
+html,
+body,
+header,
+#intro {
+    height: 100%;
+}
+
+#intro {
+    background: url("./img/bookBackround.jpg")no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    
+}
+
+.navbar-nav.navbar-center {
+	position: absolute;
+	left: 50%;
+	transform: translatex(-50%);
+}
+.navbar 
+{
+border-bottom: solid 3px white;
+}
+#search-btn
+{
+	background-color:black;
+	color:white;
+}
+.dupform {
+	margin-bottom: 15px;
+	background: black;
+	box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+	
+	 position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%,-50%);
+            width: 400px;
+            height: 500px;
+            padding: 40px 40px;
+            box-sizing: border-box;
+           
+}
+.login-form h2 {
+	margin: 0 0 15px;
+}
+
+.form-control, .btn {
+	min-height: 38px;
+	border-radius: 2px;
+}
+
+.btn {
+	font-size: 15px;
+	font-weight: bold;
+}
+.text-center
+{
+  color:blue;
+}
+</style>
+</head>
+<body onload="checkUser()">
+
+<nav class="navbar navbar-expand-lg  fixed-top navbar navbar-expand-lg navbar-light bg-dark" >
+		<a class="navbar-brand" href="./" style="color: white;"> <img src="./img/dd64da585bc57cb05e5fd4d8ce873f57.png"
+			width="30" height="30" alt="logo"> BookApp
+		</a>
+	</nav>
+
+
+
+	
+		<div class="dupform" >
+			<h2 class="text-center">MyProfile</h2>
+			<div class="form-group">
+				<label for="username" class="text-info">User Name :</label><br>
+				<input type="text" class="form-control" name="username"
+					id="name" placeholder="Username" required="required" readonly >
+			</div>
+			<div class="form-group">
+				<label for="email" class="text-info">User Email :</label><br> <input
+					type="email" class="form-control" name="email" id="email"
+					placeholder="Email" required="required" readonly>
+			</div>
+			<div class="form-group">
+				<label for="password" class="text-info">Old Password :</label><br>
+				<input type="password" class="form-control" name="oldpass"
+					id="oldpass" placeholder="Old Password" required="required">
+			</div>
+			<div class="form-group">
+				<label for="password" class="text-info">New Password :</label><br>
+				<input type="password" class="form-control" name="newpass"
+					id="newpass" placeholder="Re-Enter Password"
+					required="required">
+			</div>
+			
+			
+			<div id="error_msg"></div>
+			<div class="form-group">
+				<button type="submit" onclick="updateUser()"
+					class="btn btn-primary btn-block">Update</button>
+			</div>
+
+		
+	
+	
+</body>
+<script>
+
+
+function checkUser() {
+	$
+			.ajax({
+				type : "GET",
+				url : "./getUser",
+				success : function(response) {
+
+					if (!response.hasOwnProperty("Email")) {
+
+						window.location.href="../login";					
+					} else {
+						$("#checked_login")
+						.html("<ul class='navbar-nav' style='margin-left: auto;'><li class='nav-item'><a class='nav-link btn btn-info' href=\"./MyMusic\"><font color=white><b>My Music Board</b></font></a></li> &nbsp;&nbsp;&nbsp;<li class='nav-item'><a class='nav-link ' href='./logout'><font color=white><b>LogOut</b></font></a></li>&nbsp;&nbsp;&nbsp;<a class='navbar-item' href='./profile'><li><span id='user_name'> <font color=red><b>"+response["UserName"]+"</b></font></span></li><li class='nav-item'><img  id='user_img' src='./img/"+response["img"]+"' alt='log' style='width: 100px;'></a></li></ul>");
+					$("#email").val(response["Email"]);
+						$("#name").val(response["UserName"]);
+					}
+				},
+				error : function(data) {
+					window.location.href="../login";	
+				}
+			});
+
+}
+
+function updateUser(){
+	var old=$("#oldpass").val();
+	if(old.trim()==""){
+		$("#error_msg").html("<font color=red> Please enter old password</font>");
+		return;
+	}
+	var newp=$("#newpass").val();
+	
+	if(newp.trim().length<6){
+		$("#error_msg").html("<font color=red> Password must contain atleast 6 characters");
+		return;
+	}
+	$.ajax({
+        type:"POST",
+        url:"../updateUser",
+        data:{"oldPassword":old,"newPassword":newp},
+        success:function(response){
+            if(!response.hasOwnProperty("Error")){
+            	$("#error_msg").html("<font color=green>"+response["Updated"]+"</font>");
+            	
+			
+		} else {									
+			$("#error_msg").html("<font color=red>"+response["Error"]+"</font>");
+		}
+       },
+        error:function(data){
+            $("#error_msg").html("<font color=red>Try after some  time</font>");
+       }
+   });
+	
+}
+checkUser();
+</script>
+
+
+
+</html>

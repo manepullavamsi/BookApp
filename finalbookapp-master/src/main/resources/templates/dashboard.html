@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.springframework.org/schema/mvc">
+<head>
+<title>BookApp</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<style>
+/* Make the image fully responsive */
+.carousel-inner img {
+	width: 100%;
+	height: 100%;
+}
+html,
+body,
+header,
+#intro {
+    height: 100%;
+}
+
+
+.navbar-nav.navbar-center {
+	position: absolute;
+	left: 50%;
+	transform: translatex(-50%);
+}
+.cmatch-team1 {
+    font-weight: bold;
+}
+.cmatch-team2 {
+    font-weight: bold;
+
+}
+.navbar 
+{
+border-bottom: solid 3px white;
+}
+#nav-color
+{
+	background-color: #75e900;
+	
+}
+#search-btn
+{
+	background-color:black;
+	color:white;
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: rgb(195, 195, 195);
+}
+h1 {
+  text-align: center;
+  margin: 20px 0;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #272727;
+}
+#posts {
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  grid-gap: 10px;
+  text-align: center;
+  width: 80vw;
+  margin: 20px auto;
+}
+.post {
+  background: #fff;
+  box-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+.post img {
+  width: 100%;
+}
+.post h4 {
+  margin: 10px;
+}
+.post p {
+  padding: 20px;
+}
+</style>
+</head>
+<body onload="checkUser();displayresults(posts)">
+
+<nav class="navbar navbar-expand-lg  fixed-top navbar navbar-expand-lg navbar-light bg-dark" >
+		<a class="navbar-brand" href="./" style="color: white;"> <img src="./img/dd64da585bc57cb05e5fd4d8ce873f57.png"
+			width="30" height="30" alt="logo"> BookApp
+		</a>
+		<form class="form-inline mt-2 mt-md-0" method="get" action="./search">
+			<input class="form-control mr-md-2" type="text"
+				placeholder="Search for Books.... "id="search-box" name="search"
+				aria-label="Search" required>
+			<button id="search" class="btn btn-warning my-2 my-sm-0"
+				type="submit">Search</button>
+		</form>          
+		<button class="navbar-toggler" type="button" data-toggle="collapse"
+			data-target="#navbar-list-4" aria-controls="navbarNav"
+			aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="navbar-list-4">
+			<ul class="navbar-nav ml-auto">
+				<li class="nav-item dropdown"><a
+					class="nav-link dropdown-toggle" href="#"
+					id="navbarDropdownMenuLink" role="button" data-toggle="dropdown"
+					aria-haspopup="true" aria-expanded="false"> <img id="icon"
+						src="./img/dp.webp" width="50" height="50" class="rounded-circle">
+				</a>
+					<div class="dropdown-menu" id="profile_options"
+						aria-labelledby="navbarDropdownMenuLink"></div></li>
+			</ul>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		</div>
+	</nav>
+	
+	<!--Mask-->
+     <div id="intro" class="view">
+
+        <div class="mask rgba-black-strong ">
+
+            <div class="container-fluid d-flex align-items-center justify-content-center h-100">
+
+                <div class="row d-flex justify-content-center text-center">
+
+                    <div class="col-md-10">
+                    <section id="posts"></section>
+
+                       <template id="post-template">
+                       <div class="post">
+                        <img src="" alt="" class="post__img">
+                        <h4 class="posttitle"></h4>
+                          <p class="postauthors"></p>
+                           
+                             </div>
+                            </template>                     
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+    </body>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script> 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script> 
+  <script src="https://code.jquery.com/jquery-3.1.0.js"></script>
+  <Script>
+  function checkUser() {
+		$
+				.ajax({
+					type : "GET",
+					url : "./getUser",
+					success : function(response) {
+
+						if (response.hasOwnProperty("Email")) {
+
+							$("#profile_options")
+									.html('<a class="dropdown-item" href="./Books">Books</a><a class="dropdown-item" href="./MyProfile">Edit Profile</a><a class="dropdown-item" href="./Favourite">Favourite</a><a class="dropdown-item" href="./Recommendations">Recommendations</a><a class="dropdown-item" href="./logout">Sign Out</a>');					
+							$("#icon").attr("src","./img/"+response["img"]);
+						} else {
+							$("#profile_options")
+							.html(' <a class="dropdown-item" href="./SignUp">SignUp</a><a class="dropdown-item" href="./login">Login</a>');
+					}},
+					error : function(data) {
+						$("#profile_options")
+						.html(' <a class="dropdown-item" href="./SignUp">SignUp</a><a class="dropdown-item" href="./login">Login</a>');
+		
+					}
+				});
+
+	}
+
+const postSection = document.querySelector('#posts');
+const postTemplate = document.querySelector('#post-template');
+getData()
+  .catch(err => console.error(err));
+  var placeHldr = '<img src="https://via.placeholder.com/150">';
+async function getData() {
+  const postStream = await fetch('https://www.googleapis.com/books/v1/volumes?q=javascript');
+  const posts = await postStream.json();
+  let i = 0;
+
+  // throw 'Get Data Error';
+  console.log(posts);
+  displayresults(posts);
+  function displayresults(posts){
+  for(i=0;i<posts.items.length;i++) {
+
+      var item=posts.items[i];
+      const title = item.volumeInfo.title;
+      const authors = item.volumeInfo.authors;
+      /*var blob=(item.volumeInfo.imageLinks) ? item.volumeInfo.imageLinks.thumbnail : placeHldr ;*/
+
+     fetch('https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTxoTPBaOktJshTXx2cnzx-GxDZc3dg3To5fA&usqp=CAU')
+        .then(res => res.blob())
+        .then(blob => {
+          const newPost = document.importNode(postTemplate.content, true);
+          const postTitle = newPost.querySelector('.posttitle');
+          const postBody = newPost.querySelector('.postauthors');
+          const postImg = newPost.querySelector('.post__img');
+
+          // throw 'Image Fetch Error';
+
+          postImg.src = URL.createObjectURL(blob);
+          postTitle.innerText = title;
+          postBody.innerText = authors;
+          postSection.appendChild(newPost);
+        }).catch(err => console.error(err));
+    }
+  }
+}
+</Script>
+</html>

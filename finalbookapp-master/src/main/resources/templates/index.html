@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.springframework.org/schema/mvc">
+<head>
+<title>BookApp</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<style>
+/* Make the image fully responsive */
+.carousel-inner img {
+	width: 100%;
+	height: 100%;
+}
+
+html, body, header, #intro {
+	height: 100%;
+}
+
+#intro {
+	background: url("./img/bookBackround.jpg") no-repeat center center fixed;
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
+}
+
+.navbar-nav.navbar-center {
+	position: absolute;
+	left: 50%;
+	transform: translatex(-50%);
+}
+
+.navbar {
+	border-bottom: solid 3px white;
+}
+
+#search-btn {
+	background-color: black;
+	color: white;
+}
+</style>
+</head>
+<body onload="checkUser()">
+
+	<nav
+		class="navbar navbar-expand-lg  fixed-top navbar navbar-expand-lg navbar-light bg-dark">
+		<a class="navbar-brand" href="./" style="color: white;"> <img
+			src="./img/dd64da585bc57cb05e5fd4d8ce873f57.png" width="30"
+			height="30" alt="logo"> BookApp
+		</a>
+		<form class="form-inline mt-2 mt-md-0" method="get" action="./search">
+			<!--  input class="form-control mr-md-2" type="text"
+				placeholder="Name or Type" id="search" name="search"
+				aria-label="Search" required-->
+			<button id="search-btn" class="btn btn-warning my-2 my-sm-0"
+				type="submit">Search Books</button>
+			 <a href="/favourite">
+				Favourites</a>
+			&nbsp;
+				<a href="/recommendation">Recommendations</a> 
+	 </form>
+		<button class="navbar-toggler" type="button" data-toggle="collapse"
+			data-target="#navbar-list-4" aria-controls="navbarNav"
+			aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="navbar-list-4">
+			<ul class="navbar-nav ml-auto">
+				<li class="nav-item dropdown"><a
+					class="nav-link dropdown-toggle" href="#"
+					id="navbarDropdownMenuLink" role="button" data-toggle="dropdown"
+					aria-haspopup="true" aria-expanded="false"> <img id="icon"
+						src="./img/dp.webp" width="50" height="50" class="rounded-circle">
+				</a>
+					<div class="dropdown-menu" id="profile_options"
+						aria-labelledby="navbarDropdownMenuLink"></div></li>
+			</ul>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		</div>
+	</nav>
+
+	<!--Mask-->
+	<div id="intro" class="view">
+
+		<div class="mask rgba-black-strong ">
+
+			<div
+				class="container-fluid d-flex align-items-center justify-content-center h-100">
+
+				<div class="row d-flex justify-content-center text-center">
+
+					<div class="col-md-10">
+
+						<!-- Heading -->
+						<br>
+						<br>
+						<br>
+						<br>
+						<br>
+						<br>
+						<br>
+						<br>
+						<br>
+						<br>
+						<br>
+
+						<h1 class="h2-responsive font-weight-bold mt-sm-5" id="colorNav">The
+							BookApp</h1>
+
+
+						<!-- Divider -->
+						<hr class="hr-light" id="colorNav">
+						<h4 class="white-text my-4" id="colorNav">"A ROOM WITHOUT
+							BOOKS IS LIKE A BODY WITHOUT A SOUL."</h4>
+						<!-- <button type="button" class="btn btn-outline-white">Read more<i class="fa fa-book ml-2"></i></button> -->
+
+
+					</div>
+
+				</div>
+
+			</div>
+
+		</div>
+
+	</div>
+
+
+</body>
+<Script>
+function checkUser() {
+	$
+			.ajax({
+				type : "GET",
+				url : "./getUser",
+				success : function(response) {
+
+					if (response.hasOwnProperty("Email")) {
+
+						$("#profile_options")
+								.html('<a class="dropdown-item" href="./myprofile">Edit Profile</a><a class="dropdown-item" href="./logout">Sign Out</a>');					
+						$("#icon").attr("src","./img/"+response["img"]);
+					} else {
+						$("#profile_options")
+						.html(' <a class="dropdown-item" href="./signup">SignUp</a><a class="dropdown-item" href="./login">Login</a>');
+				}},
+				error : function(data) {
+					$("#profile_options")
+					.html(' <a class="dropdown-item" href="./signup">SignUp</a><a class="dropdown-item" href="./login">Login</a>');
+	
+				}
+			});
+
+}
+</script>
+</html>
